@@ -1,0 +1,12 @@
+<?php
+include 'config.php';
+
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
+
+// Here, add forms and PHP code for INSERT, UPDATE, DELETE operations
+// Make sure to use prepared statements to avoid SQL injection
+?>

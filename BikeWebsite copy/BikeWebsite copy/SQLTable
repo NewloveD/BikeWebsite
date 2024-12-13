@@ -1,0 +1,50 @@
+-- Drop tables if they exist to avoid conflicts
+DROP TABLE IF EXISTS Payments;
+DROP TABLE IF EXISTS Rentals;
+DROP TABLE IF EXISTS Bikes;
+DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Locations;
+
+-- Now, create the tables in the correct order
+CREATE TABLE Locations (
+  LocationID INT PRIMARY KEY AUTO_INCREMENT,
+  Description VARCHAR(255)
+);
+
+CREATE TABLE Users (
+  UserID INT PRIMARY KEY AUTO_INCREMENT,
+  FirstName VARCHAR(50),
+  LastName VARCHAR(50),
+  Email VARCHAR(100),
+  Password VARCHAR(50),
+  UserRole VARCHAR(20)
+);
+
+CREATE TABLE Bikes (
+  BikeID INT PRIMARY KEY AUTO_INCREMENT,
+  Status VARCHAR(20),
+  LocationID INT,
+  FOREIGN KEY (LocationID) REFERENCES Locations(LocationID)
+);
+
+CREATE TABLE Rentals (
+  RentalID INT PRIMARY KEY AUTO_INCREMENT,
+  UserID INT,
+  BikeID INT,
+  StartDateTime DATETIME,
+  EndDateTime DATETIME,
+  PaymentStatus VARCHAR(20),
+  FOREIGN KEY (UserID) REFERENCES Users(UserID),
+  FOREIGN KEY (BikeID) REFERENCES Bikes(BikeID)
+);
+
+CREATE TABLE Payments (
+  PaymentID INT PRIMARY KEY AUTO_INCREMENT,
+  UserID INT,
+  RentalID INT,
+  Amount DECIMAL(10, 2),
+  PaymentMethod VARCHAR(50),
+  PaymentDate DATETIME,
+  FOREIGN KEY (UserID) REFERENCES Users(UserID),
+  FOREIGN KEY (RentalID) REFERENCES Rentals(RentalID)
+);
